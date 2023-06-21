@@ -32,6 +32,20 @@ struct uds {
 	struct address address;
 };
 
+static int uds_close(struct transport *t, int sockfd)
+{
+	struct sockaddr_un sa;
+	socklen_t len = sizeof(sa);
+
+	if (!getsockname(sockfd, (struct sockaddr *) &sa, &len) &&
+	    sa.sun_family == AF_LOCAL) {
+		unlink(sa.sun_path);
+	}
+
+	close(sockfd);
+	return 0;
+}
+
 static int uds_open_server(struct transport *t, char *uds_path, struct fdarray *fda)
 {
 	struct uds *uds = container_of(t, struct uds, t);
@@ -206,6 +220,7 @@ struct transport *uds_transport_create(void)
     uds->t.release     = uds_release;
     uds->t.send        = uds_send;
     uds->t.recv        = uds_recv;
+    uds->t.close       = uds_close;
 
     fprintf(stdout, "%s:%d Created transport UDS %p successfully!\n", __func__, __LINE__, uds);
 

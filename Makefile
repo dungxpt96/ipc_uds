@@ -1,6 +1,7 @@
 CFLAGS = -Wall -O2 -g
-LDFLAGS += -pthread
+LDFLAGS += -pthread -g
 
+DZS_HDRS = dzs_config.h
 HDRS = error.h container.h address.h fd.h transport_private.h
 OBJS = smc_msg.o socket_common.o print.o transport.o uds_common.o uds.o
 
@@ -9,10 +10,10 @@ CLIENT = client
 
 all: $(SERVER) $(CLIENT)
 
-$(SERVER): $(HDRS) $(OBJS) $(SERVER).o
+$(SERVER): $(HDRS) $(DZS_HDRS) $(OBJS) $(SERVER).o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-$(CLIENT): $(HDRS) $(OBJS) $(CLIENT).o
+$(CLIENT): $(HDRS) $(DZS_HDRS) $(OBJS) $(CLIENT).o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 %.o: %.c

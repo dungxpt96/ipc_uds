@@ -20,6 +20,8 @@
 struct transport {
 	enum transport_type type;
 
+    int (*close)(struct transport *t, int sockfd);
+
     int (*open_server)(struct transport *t, char *filename, struct fdarray *fda);
 
     int (*open_client)(struct transport *t, char *filename, int timeout, int *fd);
@@ -27,8 +29,6 @@ struct transport {
     int (*connect)(struct transport *t, char *filename, int timeout);
 
     int (*accept)(struct transport *t, struct socket_connect **connect, struct fdarray *fda);
-
-    int (*close)(struct transport *t, struct fdarray *fda);
 
 	int (*recv)(struct transport *t, int fd, char *resp, int resp_len);
 

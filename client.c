@@ -66,9 +66,11 @@ int main(void)
 
     socket_command_print(SOCKET_COMMAND_VERSION_GET, resp);
 
+    transport_close(client->t, client->sockfd);
+
     socket_command_free(command);
 
-    //transport_destroy(client->t);
+    transport_destroy(client->t);
     socket_client_deallocate(client);
 
     return ERROR_NOERR;

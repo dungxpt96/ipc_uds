@@ -10,7 +10,7 @@
 
 #include <unistd.h>
 #include <signal.h>
-
+#include "dzs_config.h"
 #include "error.h"
 #include "uds.h"
 #include "transport.h"

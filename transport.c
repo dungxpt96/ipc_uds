@@ -29,6 +29,11 @@ static struct transport_create_s transport_create_tb[] =
     {TRANS_UDS, uds_transport_create},
 };
 
+int transport_close(struct transport *t, int sockfd)
+{
+	return t->close(t, sockfd);
+}
+
 int transport_open_server(struct transport *t, char *uds_path, struct fdarray *fda)
 {
     return t->open_server(t, uds_path, fda);
@@ -47,11 +52,6 @@ int transport_connect(struct transport *t, char *uds_path, int timeout)
 int transport_accept(struct transport *t, struct socket_connect *connect[], struct fdarray *fda)
 {
     return t->accept(t, connect, fda);
-}
-
-int transport_close(struct transport *t, struct fdarray *fda)
-{
-    return t->close(t, fda);
 }
 
 int transport_send(struct transport *t, int fd, void *data, int len)

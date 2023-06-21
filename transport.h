@@ -29,6 +29,7 @@ enum transport_type {
 
 struct transport;
 
+int transport_close(struct transport *t, int sockfd);
 
 int transport_open_server(struct transport *t, char *uds_path, struct fdarray *fda);
 
@@ -37,8 +38,6 @@ int transport_open_client(struct transport *t, char *uds_path, int timeout, int 
 int transport_connect(struct transport *t, char *uds_path, int timeout);
 
 int transport_accept(struct transport *t, struct socket_connect *connect[], struct fdarray *fda);
-
-int transport_close(struct transport *t, struct fdarray *fda);
 
 int transport_send(struct transport *t, int fd, void *data, int len);
 

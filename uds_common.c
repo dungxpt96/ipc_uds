@@ -122,5 +122,8 @@ void *uds_handler_routine(void *arg)
         socket_command_msg_free(command->command, command_resp);
     }
 
+    close(socket_connected->client_fd);
+    socket_connected->inuse = 0;
+
     pthread_exit(0);
 }
